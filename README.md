@@ -131,20 +131,20 @@ var _ = new List<int> {1, 2, 3, 4, 5}.IsNullOrEmpty();
 ```C#
 private int[] array = Enumerable.Range(0,1000000).ToArray();
 
-[Fact]
+[Benchmark]
 public void Benchmark1()
 {
     var (o,t) =  array.Separation(i => i % 2 == 0);
 }
 
-[Fact]
+[Benchmark]
 public void Benchmark2()
 {
     var o = array.Where(w => w % 2 == 0).ToList();
     var t = array.Where(w => w % 2 != 0).ToList();
 }
 
-[Fact]
+[Benchmark]
 public void Benchmark3()
 {
     var data = array.ToLookup(i => i % 2 == 0);
