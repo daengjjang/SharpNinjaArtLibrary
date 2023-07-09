@@ -1,4 +1,4 @@
-![image](https://github.com/dangjjang/SharpNinjaArtLibrary/assets/139039103/1cc66bbf-ea1e-4c23-b116-3516681adc2a)<div align=center>
+<div align=center>
   
 # SharpNinjaArtLibrary
 
