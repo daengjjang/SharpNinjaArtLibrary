@@ -6,7 +6,7 @@ ChatGpt가 추천해 준 멋있는 이름 SharpNinjaArtLibrary 해당 클래스 
 
 그리고 자주 사용은 안 하지만 Benchmark를 위해 모아둔 기능도 있어요!
 
-**제 코딩 스타일을 확인하실 수 있어요!**
+**간단하게 코딩 스타일을 확인하실 수 있어요!**
 
 **계속 수정 중입니다!**
 
@@ -121,7 +121,7 @@ var _ = new List<int> {1, 2, 3, 4, 5}.AsSpan();
 ```
 
 ## IsNullOrEmpty
-해당 컬렉션이 Null이거나 빈칸인지 확인합니다.
+해당 컬렉션이 Null이거나 비어있는지 확인합니다.
 ```C#
 var _ = new List<int> {1, 2, 3, 4, 5}.IsNullOrEmpty();
 ```
