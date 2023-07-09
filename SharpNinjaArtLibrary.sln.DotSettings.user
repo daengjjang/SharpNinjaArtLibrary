@@ -1,0 +1,27 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\zzang\AppData\Local\Temp\JetBrains\Rider\vAny\CoverageData\_SharpNinjaArtLibrary.1221591221\Snapshot\snapshot.utdcvr</s:String>
+	
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f928cc66_002Df9ec_002D4643_002Da14e_002D94ef6726b536/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="FindPatternTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BF8B6902-0BED-4321-92FF-E6411BE50B27::net7.0::SharpNinjaArtLibrary_Nunit3.SharpNinjaArtCollectionNunit3&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Profiling/Configurations/=1/@EntryIndexedValue">&lt;data&gt;&lt;HostParameters type="LocalHostParameters" /&gt;&lt;Argument type="StandaloneArgument"&gt;&lt;Arguments IsNull="False"&gt;&lt;/Arguments&gt;&lt;FileName IsNull="False"&gt;&lt;/FileName&gt;&lt;WorkingDirectory IsNull="False"&gt;&lt;/WorkingDirectory&gt;&lt;Scope&gt;&lt;ProcessFilters /&gt;&lt;/Scope&gt;&lt;/Argument&gt;&lt;Info type="TimelineInfo" /&gt;&lt;CoreOptions type="CoreOptions"&gt;&lt;CoreTempPath IsNull="False"&gt;&lt;/CoreTempPath&gt;&lt;RemoteEndPoint IsNull="False"&gt;&lt;/RemoteEndPoint&gt;&lt;AdditionalEnvironmentVariables /&gt;&lt;/CoreOptions&gt;&lt;HostOptions type="HostOptions"&gt;&lt;HostTempPath IsNull="False"&gt;&lt;/HostTempPath&gt;&lt;/HostOptions&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/Profiling/Configurations/=2/@EntryIndexedValue">&lt;data&gt;&lt;HostParameters type="LocalHostParameters" /&gt;&lt;Argument type="StandaloneArgument"&gt;&lt;Arguments IsNull="False"&gt;&lt;/Arguments&gt;&lt;FileName IsNull="False"&gt;&lt;/FileName&gt;&lt;WorkingDirectory IsNull="False"&gt;&lt;/WorkingDirectory&gt;&lt;Scope&gt;&lt;ProcessFilters /&gt;&lt;/Scope&gt;&lt;/Argument&gt;&lt;Info type="PerformanceInfo"&gt;&lt;MeasureType&gt;Sampling&lt;/MeasureType&gt;&lt;InjectInfo&gt;&lt;SymbolSearch&gt;&lt;SearchPaths /&gt;&lt;/SymbolSearch&gt;&lt;Scope&gt;&lt;PatternFilters /&gt;&lt;DenyAttributeFilters /&gt;&lt;/Scope&gt;&lt;/InjectInfo&gt;&lt;/Info&gt;&lt;CoreOptions type="CoreOptions"&gt;&lt;CoreTempPath IsNull="False"&gt;&lt;/CoreTempPath&gt;&lt;RemoteEndPoint IsNull="False"&gt;&lt;/RemoteEndPoint&gt;&lt;AdditionalEnvironmentVariables&gt;&lt;Item&gt;&lt;Key&gt;RESHARPER_HOST_VERSION&lt;/Key&gt;&lt;Value&gt;231.0.20230621.115235&lt;/Value&gt;&lt;/Item&gt;&lt;Item&gt;&lt;Key&gt;RESHARPER_TESTRUNNER&lt;/Key&gt;&lt;Value&gt;Profile&lt;/Value&gt;&lt;/Item&gt;&lt;Item&gt;&lt;Key&gt;RESHARPER_HOST&lt;/Key&gt;&lt;Value&gt;ReSharperPlatformVs17&lt;/Value&gt;&lt;/Item&gt;&lt;/AdditionalEnvironmentVariables&gt;&lt;/CoreOptions&gt;&lt;HostOptions type="HostOptions"&gt;&lt;HostTempPath IsNull="False"&gt;&lt;/HostTempPath&gt;&lt;ReprofileDisableReason&gt;LaunchedByReSharperUnitTestRunner&lt;/ReprofileDisableReason&gt;&lt;/HostOptions&gt;&lt;/data&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</wpf:ResourceDictionary>

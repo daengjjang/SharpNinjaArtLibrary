@@ -1,0 +1,12 @@
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\SharpNinjaArtLibrary.csproj.AssemblyReference.cache
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\SharpNinjaArtLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\SharpNinjaArtLibrary.AssemblyInfoInputs.cache
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\SharpNinjaArtLibrary.AssemblyInfo.cs
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\SharpNinjaArtLibrary.csproj.CoreCompileInputs.cache
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\bin\Debug\net7.0\SharpNinjaArtLibrary.deps.json
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\bin\Debug\net7.0\SharpNinjaArtLibrary.dll
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\bin\Debug\net7.0\SharpNinjaArtLibrary.pdb
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\SharpNinjaArtLibrary.dll
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\refint\SharpNinjaArtLibrary.dll
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\SharpNinjaArtLibrary.pdb
+C:\Users\zzang\Desktop\C_Sharp\Yotsugi-Ononoki\SharpNinjaArtLibrary\SharpNinjaArtLibrary\obj\Debug\net7.0\ref\SharpNinjaArtLibrary.dll
