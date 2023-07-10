@@ -451,3 +451,147 @@ public void Benchmark2()
 | Benchmark2 |      4,494.0144 ns |      87.0495 ns |     135.5256 ns |      4,462.8220 ns | 0.000 |   0.4501 |   0.0076 |        - |    7560 B |       0.002 |
 
 ![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/d52a3ace-4d28-4074-bfb3-c789ea13b508)
+
+### SharpNinjaArtStringManipulator - 문자열 관련 함수들을 모아놨습니다.
+
+## Split
+
+ReadOnlySpan Split 기능을 가볍게 만들었습니다.
+
+**해당 메소드는 Span에 대한 이점을 살릴 수 없습니다**
+
+**덕코딩을 이용한 Span Split (https://loonacia.tistory.com/10)**
+
+**Benchmark**
+
+|     Method |      Mean |    Error |   StdDev | Ratio | RatioSD |      Gen0 |      Gen1 |      Gen2 | Allocated | Alloc Ratio |
+|----------- |----------:|---------:|---------:|------:|--------:|----------:|----------:|----------:|----------:|------------:|
+| Benchmark1 |  92.15 ms | 1.802 ms | 2.467 ms |  1.00 |    0.00 | 3333.3333 | 3166.6667 | 1000.0000 |  65.96 MB |        1.00 |
+| Benchmark2 |  64.41 ms | 1.071 ms | 1.190 ms |  0.70 |    0.02 | 3500.0000 | 3375.0000 | 1125.0000 |  53.41 MB |        0.81 |
+| Benchmark3 | 114.52 ms | 2.156 ms | 2.482 ms |  1.24 |    0.04 | 3200.0000 | 3000.0000 | 1000.0000 |  61.78 MB |        0.94 |
+
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/6418bc78-40d7-4b13-84cf-9fa672af3252)
+
+## BetweenString
+
+사이 문자열 글자를 가져옵니다. 예시) 가나다라마바사 가 사 = 나다라마바
+
+**원하지 않은 결과가 리턴될 수 있습니다. 충분히 테스트 후 사용해주세요**
+
+**Benchmark**
+
+```C#
+[Benchmark(Baseline = true)]
+public void Benchmark1()
+{
+    var _ = _stringData.AsSpan().BetweenString("가", "사").ToList();
+}
+
+[Benchmark]
+public void Benchmark2()
+{
+    var result = new List<string>();
+    foreach (Match match in Regex.Matches(_stringData,@"가(.*?)사",RegexOptions.Multiline))
+        result.Add(match.Groups[1].ToString());
+}
+```
+
+|     Method |                Mean |              Error |             StdDev | Ratio | RatioSD |       Gen0 |       Gen1 |      Gen2 |   Allocated | Alloc Ratio |
+|----------- |--------------------:|-------------------:|-------------------:|------:|--------:|-----------:|-----------:|----------:|------------:|------------:|
+| Benchmark1 | 117,418,468.2353 ns |  2,285,302.5729 ns |  2,346,837.4878 ns | 1.000 |    0.00 |  2600.0000 |  2400.0000 |  800.0000 |  81556414 B |        1.00 |
+| Benchmark2 | 817,989,656.5789 ns | 16,272,885.7356 ns | 41,419,689.9042 ns | 6.675 |    0.50 | 25000.0000 | 24000.0000 | 1000.0000 | 449556368 B |        5.51 |
+
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/529abe75-c2b9-4fa0-b41e-07f29fe71e01)
+
+## ContainsAndOr
+
+주어진 문자열 배열을 반복하면서 특정 텍스트에 대한 조건을 검사하고 그에 대한 값을 반환하는 메서드입니다.
+
+```C#
+Assert.True("가나다라마바사".AsSpan().ContainsAndOr(SharpNinjaArtEnum.OrAndEnum.Or, StringComparison.Ordinal, "가", "타", "하"));
+```
+
+```C#
+Assert.False("가나다라마바사".AsSpan().ContainsAndOr(SharpNinjaArtEnum.OrAndEnum.And, StringComparison.Ordinal, "가", "타", "하"));
+```
+
+## Reverse
+
+문자열을 뒤집습니다.
+
+**Benchmark**
+
+```C#
+[Benchmark(Baseline = true)]
+public void Benchmark1()
+{
+    var _ = _stringData.Reverse();
+}
+
+[Benchmark]
+public void Benchmark2()
+{
+    var _ = string.Concat(_stringData.Reverse()); //Linq
+}
+    
+[Benchmark]
+public void Benchmark3()
+{
+    var charArray = _stringData.ToCharArray();
+    Array.Reverse(charArray);
+    var _ = new string(charArray);
+}
+```
+
+|     Method |      Mean |     Error |    StdDev | Ratio | RatioSD |     Gen0 |     Gen1 |     Gen2 | Allocated | Alloc Ratio |
+|----------- |----------:|----------:|----------:|------:|--------:|---------:|---------:|---------:|----------:|------------:|
+| Benchmark1 |  2.578 ms | 0.0490 ms | 0.0458 ms |  1.00 |    0.00 | 175.7813 | 175.7813 | 175.7813 |  13.35 MB |        1.00 |
+| Benchmark2 | 57.461 ms | 0.3067 ms | 0.2395 ms | 22.25 |    0.45 | 444.4444 | 444.4444 | 444.4444 |  45.35 MB |        3.40 |
+| Benchmark3 |  3.422 ms | 0.0354 ms | 0.0314 ms |  1.33 |    0.02 | 156.2500 | 156.2500 | 156.2500 |   26.7 MB |        2.00 |
+
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/cf678d9a-7e18-43ae-9f1f-39871fa63bf6)
+
+## FindPattern
+
+해당 문자열에서 패턴 위치를 모두 반환합니다.
+
+**Benchmark**
+
+```C#
+[Benchmark(Baseline = true)]
+public void Benchmark1()
+{
+    var _ = _stringData.AsSpan().FindPattern("사가나다라").ToList();
+}
+
+[Benchmark]
+public void Benchmark2()
+{
+    var _ = GetAllPatternPositions(_stringData, "사가나다라").ToList();
+}
+
+private static IEnumerable<int> GetAllPatternPositions(string input, string pattern)
+{
+    var positions = new List<int>();
+    var startIndex = 0;
+    while (startIndex < input.Length)
+    {
+        var position = input.IndexOf(pattern, startIndex, StringComparison.Ordinal);
+        if (position == -1)
+            break;
+
+        positions.Add(position);
+        startIndex = position + 1;
+    }
+
+    return positions;
+}
+```
+
+|     Method |              Mean |         Error |        StdDev |            Median | Ratio |     Gen0 |     Gen1 |     Gen2 | Allocated | Alloc Ratio |
+|----------- |------------------:|--------------:|--------------:|------------------:|------:|---------:|---------:|---------:|----------:|------------:|
+| Benchmark1 | 2,142,959.1797 ns | 7,613.9538 ns | 6,749.5718 ns | 2,141,780.0781 ns | 1.000 |        - |        - |        - |      66 B |        1.00 |
+| Benchmark2 | 1,024,454.6094 ns | 8,433.2847 ns | 7,888.4997 ns | 1,027,627.9297 ns | 0.478 | 175.7813 | 167.9688 | 167.9688 | 1049030 B |   15,894.39 |
+| Benchmark3 |         0.0030 ns |     0.0036 ns |     0.0034 ns |         0.0024 ns | 0.000 |        - |        - |        - |         - |        0.00 |
+
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/7718bdf2-dcb4-461a-832a-c05b6f3c1960)
