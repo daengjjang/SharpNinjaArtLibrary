@@ -41,14 +41,13 @@ public static class SharpNinjaArtStringManipulator
         while (startQueue.Count > 0 && endQueue.Count > 0)
         {
             var startIndex = startQueue.Dequeue();
-            var endIndex = endQueue.Peek();
-            while (startIndex > endIndex)
-            {
+            while (endQueue.Count > 0 && startIndex > endQueue.Peek()) 
                 endQueue.Dequeue();
-                endIndex = endQueue.Peek();
-            }
 
-            result.Add(text[(startIndex + 1)..endIndex].ToString());
+            if (endQueue.Count <= 0) 
+                break;
+            
+            result.Add(text[(startIndex+1)..endQueue.Dequeue()].ToString());
         }
 
         return result;
