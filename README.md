@@ -402,25 +402,52 @@ IntRandomHashSet : Random을 이용하여 랜덤 숫자를 추출 후 Hashset을
 [Benchmark(Baseline = true)]
 public void Benchmark1()
 {
-    var _ = SharpNinjaArtNumber.IntRandomShuffle(0, 1000000, 50000);
+    var _ = SharpNinjaArtNumber.IntRandomShuffle(0, 1000000, 900000).ToList();
 }
 
 [Benchmark]
 public void Benchmark2()
 {
-    var _ = SharpNinjaArtNumber.IntRandomHashSet(0, 1000000, 50000);
+    var _ = SharpNinjaArtNumber.IntRandomHashSet(0, 1000000, 900000).ToList();
 }
+}
+```
+
+1 번쨰
+
+|     Method |                Mean |             Error |            StdDev |              Median | Ratio | RatioSD |      Gen0 |      Gen1 |      Gen2 |  Allocated | Alloc Ratio |
+|----------- |--------------------:|------------------:|------------------:|--------------------:|------:|--------:|----------:|----------:|----------:|-----------:|------------:|
+| Benchmark1 |  25,873,179.5455 ns |   498,417.9736 ns |   612,102.0323 ns |  25,835,853.1250 ns | 1.000 |    0.00 |  812.5000 |  812.5000 |  812.5000 |  7600470 B |        1.00 |
+| Benchmark2 | 119,116,535.0000 ns | 2,360,340.1703 ns | 6,959,516.2468 ns | 117,594,112.5000 ns | 4.727 |    0.29 | 1000.0000 | 1000.0000 | 1000.0000 | 51501044 B |        6.78 |
+
+2 번째
+
+|     Method |                Mean |             Error |            StdDev | Ratio | RatioSD |      Gen0 |      Gen1 |      Gen2 |  Allocated | Alloc Ratio |
+|----------- |--------------------:|------------------:|------------------:|------:|--------:|----------:|----------:|----------:|-----------:|------------:|
+| Benchmark1 |  26,349,054.4643 ns |   343,023.4810 ns |   304,081.3812 ns | 1.000 |    0.00 |  281.2500 |  281.2500 |  281.2500 |  7600310 B |        1.00 |
+| Benchmark2 | 119,371,837.1831 ns | 2,370,389.3289 ns | 5,814,605.4169 ns | 4.717 |    0.21 | 1400.0000 | 1400.0000 | 1400.0000 | 51501142 B |        6.78 |
+
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/8a343147-43b1-481d-a986-ab84b071e5ae)
+
+Count가 적을시
+
+```C#
+[Benchmark(Baseline = true)]
+public void Benchmark1()
+{
+    var _ = SharpNinjaArtNumber.IntRandomShuffle(0, 1000000, 100).ToList();
+}
+
+[Benchmark]
+public void Benchmark2()
+{
+    var _ = SharpNinjaArtNumber.IntRandomHashSet(0, 1000000, 100).ToList();
 }
 ```
 
 |     Method |               Mean |           Error |          StdDev |             Median | Ratio |     Gen0 |     Gen1 |     Gen2 | Allocated | Alloc Ratio |
 |----------- |-------------------:|----------------:|----------------:|-------------------:|------:|---------:|---------:|---------:|----------:|------------:|
-| Benchmark1 | 22,480,750.3906 ns | 444,226.9080 ns | 436,290.2220 ns | 22,387,553.1250 ns | 1.000 | 437.5000 | 437.5000 | 437.5000 | 4000299 B |       1.000 |
-| Benchmark2 |          5.3579 ns |       0.1297 ns |       0.1388 ns |          5.2958 ns | 0.000 |   0.0043 |        - |        - |      72 B |       0.000 |
-| Benchmark3 |          0.0033 ns |       0.0041 ns |       0.0032 ns |          0.0025 ns | 0.000 |        - |        - |        - |         - |       0.000 |
+| Benchmark1 | 23,366,397.5446 ns | 387,039.2527 ns | 343,100.2163 ns | 23,450,384.3750 ns | 1.000 | 500.0000 | 500.0000 | 500.0000 | 4000772 B |       1.000 |
+| Benchmark2 |      4,494.0144 ns |      87.0495 ns |     135.5256 ns |      4,462.8220 ns | 0.000 |   0.4501 |   0.0076 |        - |    7560 B |       0.002 |
 
-![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/02dfafb9-c67e-48c8-a3d4-d3e657ba1dcc)
-
-![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/c561d446-40d2-449c-8fa8-0de7e614a15b)
-
-
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/d52a3ace-4d28-4074-bfb3-c789ea13b508)
