@@ -19,7 +19,7 @@ namespace SharpNinjaArtLibrary;
 public static class SharpNinjaArtNumber
 {
     [Obsolete("I'll use Linq Min")]
-    public static T SimdMin<T>(Span<T> source) where T : unmanaged, INumber<T>, IMinMaxValue<T>
+    public static T SimdMin<T>(this Span<T> source) where T : unmanaged, INumber<T>, IMinMaxValue<T>
     {
         if (Vector.IsHardwareAccelerated is false)
             return default;
@@ -40,7 +40,7 @@ public static class SharpNinjaArtNumber
         return result;
     }
     [Obsolete("I'll use Linq Max")]
-    public static T SimdMax<T>(Span<T> source) where T : unmanaged, INumber<T>, IMinMaxValue<T>
+    public static T SimdMax<T>(this Span<T> source) where T : unmanaged, INumber<T>, IMinMaxValue<T>
     {
         if (Vector.IsHardwareAccelerated is false)
             return default;
@@ -61,7 +61,7 @@ public static class SharpNinjaArtNumber
         return result;
     }
 
-    public static T SimdSum<T>(Span<T> source) where T : unmanaged, INumber<T>
+    public static T SimdSum<T>(this Span<T> source) where T : unmanaged, INumber<T>
     {
         if (Vector.IsHardwareAccelerated is false)
             return default;
