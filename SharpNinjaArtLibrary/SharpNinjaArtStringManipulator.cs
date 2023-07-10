@@ -70,43 +70,4 @@ public static class SharpNinjaArtStringManipulator
             chars.Reverse();
         });
 
-    // ----------------------------- 알고리즘
-    public static List<int> FindPattern(this ReadOnlySpan<char> text, ReadOnlySpan<char> pattern) //Rabin-Karp
-    {
-        var result = new List<int>();
-        int textHash = 0, patternHash = 0, textLength = text.Length, patternLength = pattern.Length, h = 1;
-        const int mod = 101, d = 256;
-
-        if (textLength < patternLength)
-            return result;
-
-        for (var i = 0; i < patternLength - 1; i++)
-            h = h * d % mod;
-
-        for (var i = 0; i < patternLength; i++)
-        {
-            textHash = ((d * textHash) + text[i]) % mod;
-            patternHash = ((d * patternHash) + pattern[i]) % mod;
-        }
-
-        for (var i = 0; i <= textLength - patternLength; i++)
-        {
-            if (textHash == patternHash)
-            {
-                if (text.Slice(i, patternLength).SequenceEqual(pattern))
-                    result.Add(i);
-            }
-
-            if (i >= textLength - patternLength) 
-                continue;
-
-            textHash = ((d * (textHash - (text[i] * h))) + text[i + patternLength]) % mod;
-            if (textHash < 0)
-                textHash += mod;
-        }
-
-        return result;
-    }
-
-
 }
