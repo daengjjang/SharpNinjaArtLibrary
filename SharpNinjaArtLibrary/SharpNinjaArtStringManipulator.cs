@@ -63,6 +63,7 @@ public static class SharpNinjaArtStringManipulator
 
         return !comTypeBool;
     }
+    
     public static string Reverse(this string text) =>
         string.Create(text.Length, text, (chars, state) =>
         {
@@ -70,4 +71,43 @@ public static class SharpNinjaArtStringManipulator
             chars.Reverse();
         });
 
+    public static IEnumerable<int> FindPattern(this ReadOnlySpan<char> text, ReadOnlySpan<char> pattern)
+    {
+        int textLength = text.Length, patternLength = pattern.Length, activeLength = 0;
+        var prefixTable = ComputePrefixFunction(pattern);
+        var indices = new List<int>();
+        for (var i = 0; i < textLength; i++)
+        {
+            while (activeLength > 0 && pattern[activeLength] != text[i])
+                activeLength = prefixTable[activeLength - 1];
+
+            if (pattern[activeLength] == text[i])
+                activeLength++;
+
+            if (activeLength != patternLength) 
+                continue;
+            
+            indices.Add(i - patternLength + 1);
+            activeLength = prefixTable[activeLength - 1];
+        }
+
+        return indices.ToArray();
+        static int[] ComputePrefixFunction(ReadOnlySpan<char> pattern)
+        {
+            int patternLength = pattern.Length ,activeLength = 0;
+            var prefixTable = new int[patternLength];
+            for (var i = 1; i < patternLength; i++)
+            {
+                while (activeLength > 0 && pattern[activeLength] != pattern[i])
+                    activeLength = prefixTable[activeLength - 1];
+
+                if (pattern[activeLength] == pattern[i])
+                    activeLength++;
+
+                prefixTable[i] = activeLength;
+            }
+
+            return prefixTable;
+        }
+    }
 }
