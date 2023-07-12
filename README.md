@@ -481,6 +481,8 @@ ReadOnlySpan Split 기능을 가볍게 만들었습니다.
 **Benchmark**
 
 ```C#
+private readonly string _stringData = string.Concat(Enumerable.Repeat("가나다라마바사", 100000));
+
 [Benchmark(Baseline = true)]
 public void Benchmark1()
 {
@@ -496,12 +498,12 @@ public void Benchmark2()
 }
 ```
 
-|     Method |                Mean |              Error |             StdDev | Ratio | RatioSD |       Gen0 |       Gen1 |      Gen2 |   Allocated | Alloc Ratio |
-|----------- |--------------------:|-------------------:|-------------------:|------:|--------:|-----------:|-----------:|----------:|------------:|------------:|
-| Benchmark1 | 117,418,468.2353 ns |  2,285,302.5729 ns |  2,346,837.4878 ns | 1.000 |    0.00 |  2600.0000 |  2400.0000 |  800.0000 |  81556414 B |        1.00 |
-| Benchmark2 | 817,989,656.5789 ns | 16,272,885.7356 ns | 41,419,689.9042 ns | 6.675 |    0.50 | 25000.0000 | 24000.0000 | 1000.0000 | 449556368 B |        5.51 |
+|     Method |               Mean |             Error |            StdDev |             Median |  Ratio | RatioSD |      Gen0 |      Gen1 |      Gen2 |  Allocated | Alloc Ratio |
+|----------- |-------------------:|------------------:|------------------:|-------------------:|-------:|--------:|----------:|----------:|----------:|-----------:|------------:|
+| Benchmark1 |  5,981,847.1460 ns |   158,694.2163 ns |   462,918.4778 ns |  5,966,066.7969 ns |  1.000 |    0.00 | 1296.8750 | 1273.4375 | 1085.9375 |  9798560 B |        1.00 |
+| Benchmark2 | 70,381,148.0519 ns | 1,379,819.1263 ns | 2,188,539.3540 ns | 69,725,157.1429 ns | 11.070 |    0.73 | 3285.7143 | 3142.8571 |  857.1429 | 45795550 B |        4.67 |
 
-![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/529abe75-c2b9-4fa0-b41e-07f29fe71e01)
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/c5e0b5c7-9f50-4835-9941-01122d4805dd)
 
 ## ContainsAndOr
 
@@ -522,6 +524,8 @@ Assert.False("가나다라마바사".AsSpan().ContainsAndOr(SharpNinjaArtEnum.Or
 **Benchmark**
 
 ```C#
+private readonly string _stringData = string.Concat(Enumerable.Repeat("가나다라마바사", 100000));
+
 [Benchmark(Baseline = true)]
 public void Benchmark1()
 {
@@ -543,10 +547,58 @@ public void Benchmark3()
 }
 ```
 
-|     Method |      Mean |     Error |    StdDev | Ratio | RatioSD |     Gen0 |     Gen1 |     Gen2 | Allocated | Alloc Ratio |
-|----------- |----------:|----------:|----------:|------:|--------:|---------:|---------:|---------:|----------:|------------:|
-| Benchmark1 |  2.578 ms | 0.0490 ms | 0.0458 ms |  1.00 |    0.00 | 175.7813 | 175.7813 | 175.7813 |  13.35 MB |        1.00 |
-| Benchmark2 | 57.461 ms | 0.3067 ms | 0.2395 ms | 22.25 |    0.45 | 444.4444 | 444.4444 | 444.4444 |  45.35 MB |        3.40 |
-| Benchmark3 |  3.422 ms | 0.0354 ms | 0.0314 ms |  1.33 |    0.02 | 156.2500 | 156.2500 | 156.2500 |   26.7 MB |        2.00 |
+|     Method |       Mean |    Error |   StdDev | Ratio | RatioSD |     Gen0 |     Gen1 |     Gen2 | Allocated | Alloc Ratio |
+|----------- |-----------:|---------:|---------:|------:|--------:|---------:|---------:|---------:|----------:|------------:|
+| Benchmark1 |   270.8 us |  2.42 us |  2.26 us |  1.00 |    0.00 | 198.7305 | 198.7305 | 198.7305 |   1.34 MB |        1.00 |
+| Benchmark2 | 5,994.1 us | 74.73 us | 66.25 us | 22.16 |    0.26 | 703.1250 | 695.3125 | 695.3125 |   5.34 MB |        4.00 |
+| Benchmark3 |   500.5 us |  6.57 us |  6.15 us |  1.85 |    0.02 | 395.5078 | 395.5078 | 395.5078 |   2.67 MB |        2.00 |
 
-![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/cf678d9a-7e18-43ae-9f1f-39871fa63bf6)
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/8d40ab3c-b317-4b67-8637-c485525fb906)
+
+## FindPattern
+
+문자열에서 특정 문자 위치를 찾습니다.
+
+**Benchmark**
+
+```C#
+private readonly string _stringData = string.Concat(Enumerable.Repeat("가나다라마바사", 100000));
+
+[Benchmark(Baseline = true)]
+public void Benchmark1()
+{
+    var _ = _stringData.AsSpan().FindPattern("가나다").ToList();
+}
+
+[Benchmark]
+public void Benchmark2()
+{
+    var _ = GetAllPatternPositions(_stringData, "가나다").ToList();
+}
+
+private static IEnumerable<int> GetAllPatternPositions(string input, string pattern)
+{
+    var positions = new List<int>();
+    var startIndex = 0;
+    while (startIndex < input.Length)
+    {
+        var position = input.IndexOf(pattern, startIndex, StringComparison.Ordinal);
+        if (position == -1)
+            break;
+
+        positions.Add(position);
+        startIndex = position + 1;
+    }
+
+    return positions;
+}
+```
+
+|     Method |              Mean |          Error |         StdDev |            Median | Ratio | RatioSD |     Gen0 |     Gen1 |     Gen2 | Allocated | Alloc Ratio |
+|----------- |------------------:|---------------:|---------------:|------------------:|------:|--------:|---------:|---------:|---------:|----------:|------------:|
+| Benchmark1 | 1,043,966.0296 ns | 14,527.9173 ns | 12,878.6203 ns | 1,042,266.6992 ns | 1.000 |    0.00 | 302.7344 | 294.9219 | 294.9219 | 1849615 B |        1.00 |
+| Benchmark2 | 1,249,807.0871 ns | 13,769.9271 ns | 12,206.6817 ns | 1,247,225.0977 ns | 1.197 |    0.02 | 171.8750 | 164.0625 | 164.0625 | 1449579 B |        0.78 |
+| Benchmark3 |         0.0005 ns |      0.0016 ns |      0.0013 ns |         0.0000 ns | 0.000 |    0.00 |        - |        - |        - |         - |        0.00 |
+
+![image](https://github.com/daengjjang/SharpNinjaArtLibrary/assets/139039103/e464a284-2c00-4815-b40f-ca588d305963)
+
