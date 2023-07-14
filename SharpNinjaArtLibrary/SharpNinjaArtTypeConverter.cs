@@ -16,23 +16,23 @@
 namespace SharpNinjaArtLibrary;
 public static class SharpNinjaArtTypeConverter
 {
-    public static int ToInt(this string? text) => 
+    private static int ToInt(this string text) => 
         int.TryParse(text.AsSpan(), out var result) ? result : int.MinValue;
     public static int ToInt(this object objData) =>
-        objData.ToString().ToInt();
-
-    public static long ToInt64(this string? text) =>
+        objData.ToString()?.ToInt() ?? int.MinValue;
+    
+    private static long ToInt64(this string text) =>
         long.TryParse(text.AsSpan(), out var result) ? result : long.MinValue;
     public static long ToInt64(this object objData) =>
-        objData.ToString().ToInt64();
-
-    public static double ToDouble(this string? text) =>
+        objData.ToString()?.ToInt64() ?? long.MinValue;
+    
+    private static double ToDouble(this string text) =>
         double.TryParse(text.AsSpan(), out var result) ? result : double.MinValue;
     public static double ToDouble(this object objData) =>
-        objData.ToString().ToDouble();
-
-    public static decimal ToDecimal(this string? text) =>
+        objData.ToString()?.ToDouble() ?? double.MinValue;
+    
+    private static decimal ToDecimal(this string text) =>
         decimal.TryParse(text.AsSpan(), out var result) ? result : decimal.MinValue;
     public static decimal ToDecimal(this object objData) =>
-        objData.ToString().ToDecimal();
+        objData.ToString()?.ToDecimal() ?? decimal.MinValue;
 }
