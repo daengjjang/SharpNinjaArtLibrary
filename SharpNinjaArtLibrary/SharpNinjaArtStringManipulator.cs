@@ -18,41 +18,46 @@ using static SharpNinjaArtLibrary.SharpNinjaArtEnum;
 namespace SharpNinjaArtLibrary;
 public static class SharpNinjaArtStringManipulator
 {
-    public static List<string> Split(ReadOnlySpan<char> text, ReadOnlySpan<char> pattern)
+    public static IEnumerable<ReadOnlyMemory<char>> Split2Memory(this string text, string pattern)
     {
-        var result = new List<string>();
-        var findIndex = new Queue<int>(FindPattern(text, pattern));
+        var textMemory = text.AsMemory();
+        var patternLength = pattern.Length;
         var startIndex = 0;
-        while (findIndex.Count > 0)
+
+        foreach (var matchIndex in FindPattern(text, pattern))
         {
-            var endIndex = findIndex.Dequeue();
-            result.Add(text[startIndex..endIndex].ToString());
-            startIndex = endIndex + 1;
+            yield return textMemory[startIndex..matchIndex];
+            startIndex = matchIndex + patternLength;
         }
 
-        result.Add(text[startIndex..text.Length].ToString());
-        return result;
+        yield return textMemory[startIndex..];
     }
-    public static List<string> BetweenString(this ReadOnlySpan<char> text, ReadOnlySpan<char> start, ReadOnlySpan<char> end)
+    
+    public static IEnumerable<ReadOnlyMemory<char>> BetweenString(this string text, string start, string end)
     {
-        var result = new List<string>();
-        var startQueue = new Queue<int>(text.FindPattern(start));
-        var endQueue = new Queue<int>(text.FindPattern(end));
-        while (startQueue.Count > 0 && endQueue.Count > 0)
+        var textMemory = text.AsMemory();
+        using var startIndices = text.FindPattern(start).GetEnumerator();
+        using var endIndices = text.FindPattern(end).GetEnumerator();
+
+        var hasEnd = endIndices.MoveNext();
+        while (startIndices.MoveNext())
         {
-            var startIndex = startQueue.Dequeue();
-            while (endQueue.Count > 0 && startIndex > endQueue.Peek()) 
-                endQueue.Dequeue();
+            var startIndex = startIndices.Current;
 
-            if (endQueue.Count <= 0) 
+            while (hasEnd && startIndex > endIndices.Current)
+                hasEnd = endIndices.MoveNext();
+
+            if (!hasEnd)
                 break;
-            
-            result.Add(text[(startIndex+1)..endQueue.Dequeue()].ToString());
-        }
 
-        return result;
+            var endIndex = endIndices.Current;
+            hasEnd = endIndices.MoveNext();
+
+            yield return textMemory[(startIndex + 1)..endIndex];
+        }
     }
-    public static bool ContainsAndOr(this ReadOnlySpan<char> text, OrAndEnum comType, StringComparison comparisonType = StringComparison.Ordinal, params string[] strArray) //단순 아호코라식 사용하면 더 빠를듯함
+    
+    public static bool ContainsAndOr(this string text, OrAndEnum comType, StringComparison comparisonType = StringComparison.Ordinal, params string[] strArray) //단순 아호코라식 사용하면 더 빠를듯함
     {
         var comTypeBool = comType is OrAndEnum.Or;
         foreach (var target in strArray)
@@ -70,12 +75,25 @@ public static class SharpNinjaArtStringManipulator
             state.CopyTo(chars);
             chars.Reverse();
         });
+    
+    private static IEnumerable<int> FindPatternIndexOf(string input, string pattern)
+    {
+        var startIndex = 0;
+        while (startIndex < input.Length)
+        {
+            var position = input.IndexOf(pattern, startIndex, StringComparison.Ordinal);
+            if (position == -1)
+                break;
 
-    public static IEnumerable<int> FindPattern(this ReadOnlySpan<char> text, ReadOnlySpan<char> pattern)
+            yield return position;
+            startIndex = position + 1;
+        }
+    }
+    
+    public static IEnumerable<int> FindPattern(this string text, string pattern)
     {
         int textLength = text.Length, patternLength = pattern.Length, activeLength = 0;
         var prefixTable = ComputePrefixFunction(pattern);
-        var indices = new List<int>();
         for (var i = 0; i < textLength; i++)
         {
             while (activeLength > 0 && pattern[activeLength] != text[i])
@@ -87,12 +105,12 @@ public static class SharpNinjaArtStringManipulator
             if (activeLength != patternLength) 
                 continue;
             
-            indices.Add(i - patternLength + 1);
             activeLength = prefixTable[activeLength - 1];
+            
+            yield return i - patternLength + 1;
         }
 
-        return indices.ToArray();
-        static int[] ComputePrefixFunction(ReadOnlySpan<char> pattern)
+        static int[] ComputePrefixFunction(string pattern)
         {
             int patternLength = pattern.Length ,activeLength = 0;
             var prefixTable = new int[patternLength];
