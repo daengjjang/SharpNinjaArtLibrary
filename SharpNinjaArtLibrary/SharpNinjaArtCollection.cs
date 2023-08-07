@@ -1,4 +1,4 @@
-﻿#region Copyright (c) 2023 [SharpNinjaArtLibrary]. All rights reserved.
+#region Copyright (c) 2023 [SharpNinjaArtLibrary]. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ public static class SharpNinjaArtCollection
             (source[i], source[rnd]) = (source[rnd], source[i]);
         }
     }
-    
     public static IEnumerable<T> GetRandItems<T>(this IList<T> source, int count)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -36,17 +35,14 @@ public static class SharpNinjaArtCollection
         foreach (var item in SharpNinjaArtNumber.IntRandomShuffle(0, source.Count, count))
             yield return source[item];
     }
-    
     public static Span<T> AsSpan<T>(this List<T> source) =>
         CollectionsMarshal.AsSpan(source);
-    
     public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source) => 
         source is null || source.Any() is false;
-    
     public static (List<T>, List<T>) Separation<T>(this IEnumerable<T> source, Func<T,bool> predicate)
     {
         ArgumentNullException.ThrowIfNull(source);
-
+        
         var (result, result2) = (new List<T>(), new List<T>());
         foreach (var item in source)
         {
@@ -59,5 +55,18 @@ public static class SharpNinjaArtCollection
         return (result, result2);
 
         //Lookup은 성능적으로 느림!
+    }
+    public static IEnumerable<T> Cycle<T>(this IEnumerable<T> source)
+    {
+        var enumerable = source.ToList();
+        while (true)
+        {
+            foreach (var item in enumerable)
+            {
+                yield return item;
+            }
+        }
+        
+        // ReSharper disable once IteratorNeverReturns
     }
 }
